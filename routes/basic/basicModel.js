@@ -72,16 +72,16 @@ module.exports = (dbName, tableName, extMethods)=> {
          * @returns {*}  knex promise
          */
         addData(data, trx){
-            logger.enter("BASIC EVENT: add data." +
+            console.log("BASIC EVENT: add data.TABLE:" + tableName +
                 "\ntip:with this method, you can add a data to the table.");
 
             //如果事务对象不为空，则采用事务模式
-            if(trx){
+            if (trx) {
                 return trx.withSchema(dbName)
                     .table(tableName)
                     .insert(data)
                     .debug()
-            }else{
+            } else {
                 return knex.withSchema(dbName)
                     .table(tableName)
                     .insert(data)
@@ -100,13 +100,13 @@ module.exports = (dbName, tableName, extMethods)=> {
                 "\ntip:with this method, you can update a data by condition.");
 
             //如果事务对象不为空，则采用事务模式
-            if(trx){
+            if (trx) {
                 return trx.withSchema(dbName)
                     .table(tableName)
                     .update(data)
                     .where(conditionField, value)
                     .debug()
-            }else{
+            } else {
                 return knex.withSchema(dbName)
                     .table(tableName)
                     .update(data)
@@ -125,13 +125,13 @@ module.exports = (dbName, tableName, extMethods)=> {
                 "\ntip:with this method, you can delete data by condition.");
 
             //如果事务对象不为空，则采用事务模式
-            if(trx){
+            if (trx) {
                 return trx.withSchema(dbName)
                     .table(tableName)
                     .where(conditionField, value)
                     .del()
                     .debug()
-            }else {
+            } else {
                 return knex.withSchema(dbName)
                     .table(tableName)
                     .where(conditionField, value)
