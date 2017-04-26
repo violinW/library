@@ -3,7 +3,7 @@ var fs = require('fs');
 var codeTemplateStr = "./codeTemplate.txt";
 var template = fs.readFileSync(codeTemplateStr, 'UTF-8');
 
-var tableDefine = "./promotion/limitTimeDiscount.json";
+var tableDefine = "./promotion/message.json";
 var tableJSON = fs.readFileSync(tableDefine, 'UTF-8');
 
 var data = JSON.parse(tableJSON);

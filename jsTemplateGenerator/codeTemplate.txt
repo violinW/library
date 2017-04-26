@@ -206,7 +206,7 @@ module.exports =(dbName)=>{
    }
 }
 let getForeignTableInfo=(dbName, Id)=>{
-//处理外键关系表
+    //处理外键关系表
     let foreignTables=[
     #!@ForeignKey@
         {
@@ -219,7 +219,7 @@ let getForeignTableInfo=(dbName, Id)=>{
     return Promise.map(foreignTables, function(foreign){
         return knex.withSchema(dbName)
             .table(foreign['tableName'])
-            .where(foreign['tableName'] + "." + foreign['ForeignTableKey']+" = '" + Id + "'")
+            .where(foreign['tableName'] + "." + foreign['ForeignTableKey'], Id)
             .select("*")
             .debug()
             .then(function(result){
