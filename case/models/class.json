@@ -1,0 +1,59 @@
+{
+  "TableName": "class",
+  "UniqueKey": "id",
+  "MappingKey": [
+    {
+      "name": "Student",
+      "ThisTableKey": "id",
+      "MiddleTable": "student_class_mapping",
+      "MiddleKey": "class_id",
+      "MappingKey": "student_id",
+      "MappingTable": "student",
+      "MappingTableKey": "id"
+    },
+    {
+      "name": "Classroom",
+      "ThisTableKey": "id",
+      "MiddleTable": "class_classroom_mapping",
+      "MiddleKey": "class_id",
+      "MappingKey": "classroom_id",
+      "MappingTable": "classroom",
+      "MappingTableKey": "id"
+    },
+    {
+      "name": "HeadTeacher",
+      "ThisTableKey": "id",
+      "MiddleTable": "head_teacher",
+      "MiddleKey": "class_id",
+      "MappingKey": "teacher_id",
+      "MappingTable": "teacher",
+      "MappingTableKey": "id"
+    },
+    {
+      "name": "Course",
+      "ThisTableKey": "id",
+      "MiddleTable": "class_course_mapping",
+      "MiddleKey": "class_id",
+      "MappingKey": "course_id",
+      "MappingTable": "course",
+      "MappingTableKey": "id",
+      "TRACE": {
+        "TableName": "course",
+        "mode": "type_one"
+      }
+    }
+  ],
+  "mode": {
+    "type_one": {
+      "MappingKey": [
+        "Student"
+      ]
+    },
+    "type_two": {
+      "MappingKey": [
+        "Student",
+        "Course"
+      ]
+    }
+  }
+}

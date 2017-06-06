@@ -6,7 +6,7 @@ enum_type("orderStatus").convertToKey("待审核");
 
 
 //枚举键转换成值，orderStatus是枚举类型名称
-enum_type("orderStatus").convertToKey("CREATED");
+enum_type("orderStatus").convertToValue("CREATED");
 //result:待审核
 
 

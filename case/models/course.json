@@ -1,0 +1,31 @@
+{
+  "TableName": "course",
+  "UniqueKey": "id",
+  "AntiForeignKey": [
+    {
+      "name": "Teacher",
+      "Table": "teacher",
+      "ThisTableKey": "teacher_id",
+      "MainTableKey": "id"
+    },
+    {
+      "name": "Subject",
+      "Table": "subject",
+      "ThisTableKey": "subject_id",
+      "MainTableKey": "id"
+    }
+  ],
+  "mode": {
+    "type_one": {
+      "AntiForeignKey": [
+        "Teacher"
+      ]
+    },
+    "type_two": {
+      "AntiForeignKey": [
+        "Teacher",
+        "Subject"
+      ]
+    }
+  }
+}

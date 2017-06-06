@@ -1,0 +1,35 @@
+{
+  "TableName": "student",
+  "UniqueKey": "id",
+  "MappingKey": [
+    {
+      "name": "ClassMapping",
+      "ThisTableKey": "id",
+      "MiddleTable": "student_class_mapping",
+      "MiddleKey": "student_id",
+      "MappingKey": "class_id",
+      "MappingTable": "class",
+      "MappingTableKey": "id",
+      "TRACE":{
+
+      }
+    }
+  ],
+  "mode": {
+    "type_one": {
+      "ForeignKey": [
+        "LimitTimeDiscount"
+      ],
+      "MappingKey": []
+    },
+    "type_two": {
+      "ForeignKey": [
+        "LimitTimeDiscount",
+        "MessageContent"
+      ],
+      "MappingKey": [
+        "CampaignTarget"
+      ]
+    }
+  }
+}
