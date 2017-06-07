@@ -1,8 +1,9 @@
 'use strict';
 const modelList = require("./modelList.js");
-const modelProcessor = require("../modelProcessor.js")(modelList);
-const BasicUseCase = require("../usecase/basicUseCase.js");
+const knex = require('knex')({client: "mysql"});
+const businessModel = require("../index.js")((knex, modelList));
+const CommonUseCase = businessModel.CommonUseCase;
 const dbName = "testDB";
 
-return BasicUseCase(dbName, modelProcessor("Campaign").setMode("type_two"));
+module.exports = CommonUseCase(dbName, "Campaign", "type_two");
 

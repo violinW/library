@@ -1,15 +1,16 @@
 'use strict';
 const modelList = require("../case/modelList.js");
-const modelProcessor = require("../jsTemplateGenerator/new/businessModel/modelProcessor.js")(modelList);
-const BasicUseCase = require("../jsTemplateGenerator/new/businessModel/usecase/basicUseCase.js");
+const knex = require('../modules/db');
+const businessModel = require("../jsTemplateGenerator/new/businessModel/index")(knex, modelList);
+const CommonUseCase= businessModel.CommonUseCase;
 const _ = require('lodash');
 const Logger = require('logger-romens');
 const logger = new Logger();
 
 module.exports = (dbName)=> {
-  const StudentMethods = BasicUseCase(dbName, modelProcessor("Student").setMode("type_one"));
-  const CourseMethods = BasicUseCase(dbName, modelProcessor("Course").setMode("type_two"));
-  const ClassMethods = BasicUseCase(dbName, modelProcessor("Class").setMode("type_two"));
+  const StudentMethods = CommonUseCase(dbName, "Student", "type_one");
+  const CourseMethods = CommonUseCase(dbName, "Course", "type_two");
+  const ClassMethods = CommonUseCase(dbName, "Class", "type_two");
 
   return {
     addCourse(req, res, next) {
