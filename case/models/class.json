@@ -36,6 +36,15 @@
       "MiddleKey": "class_id",
       "MappingKey": "course_id",
       "MappingTable": "course",
+      "MappingTableKey": "id"
+    },
+    {
+      "name": "Course_To_Teacher",
+      "ThisTableKey": "id",
+      "MiddleTable": "class_course_mapping",
+      "MiddleKey": "class_id",
+      "MappingKey": "course_id",
+      "MappingTable": "course",
       "MappingTableKey": "id",
       "TRACE": {
         "TableName": "course",
@@ -53,6 +62,11 @@
       "MappingKey": [
         "Student",
         "Course"
+      ]
+    },
+    "type_three": {
+      "MappingKey": [
+        "Course_To_Teacher"
       ]
     }
   }

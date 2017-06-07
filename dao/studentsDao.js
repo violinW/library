@@ -4,7 +4,7 @@ var Logger = require('logger-romens');
 var logger = new Logger();
 var Promise = require('bluebird');
 var knex = require('../conf/knexConfig');
-var basicModel = require('../routes/basic/basicModel');
+var basicModel = require('../jsTemplateGenerator/new/businessModel/datasource/basicModel');
 var commonMethod = require('../util/commonMethod');
 // 向前台返回JSON方法的简单封装
 var jsonWrite = function (res, ret) {

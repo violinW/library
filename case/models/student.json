@@ -11,24 +11,15 @@
       "MappingTable": "class",
       "MappingTableKey": "id",
       "TRACE":{
-
+        "TableName": "class",
+        "mode": "type_one"
       }
     }
   ],
   "mode": {
     "type_one": {
-      "ForeignKey": [
-        "LimitTimeDiscount"
-      ],
-      "MappingKey": []
-    },
-    "type_two": {
-      "ForeignKey": [
-        "LimitTimeDiscount",
-        "MessageContent"
-      ],
       "MappingKey": [
-        "CampaignTarget"
+        "ClassMapping"
       ]
     }
   }

@@ -1,6 +1,5 @@
 'use strict';
-const modelList = require("./modelList");
-const logger = require('modules/filterLogger');
+const logger = require('../../../modules/filterLogger');
 const _ = require('lodash');
 /**
  * 开起和关闭log
@@ -11,8 +10,9 @@ const log = function (log) {
   consoleSwitch ? logger.info(log) : null;
 };
 
-function ModelProcessor(modelName) {
+function ModelProcessor(modelName, modelList) {
   this.structure = modelList[modelName];
+  this.modelList = modelList;
   this.setMode = (modeName)=> {
     if (!modelList[modelName]) {
       log(`[error]业务模型 ${modelName} 不存在！`);
@@ -24,7 +24,7 @@ function ModelProcessor(modelName) {
     }
     const modeParams = modeName ? modelList[modelName]["mode"][modeName] : "COMPLETE_MODE";
     const structure = modelList[modelName];
-    const foreignModel = [], mappingModel = [];
+    const foreignModel = [], mappingModel = [], antiForeignModel = [];
 
     _.each(structure.ForeignKey, (foreignTable)=> {
       if (modeParams === "COMPLETE_MODE" || _.findIndex(modeParams["ForeignKey"], (item)=> {
@@ -34,6 +34,16 @@ function ModelProcessor(modelName) {
           "Table": foreignTable.Table,
           "ThisTableKey": foreignTable.ThisTableKey,
           "ForeignTableKey": foreignTable.ForeignTableKey
+        })
+    });
+    _.each(structure.AntiForeignKey, (antiForeignTable)=> {
+      if (modeParams === "COMPLETE_MODE" || _.findIndex(modeParams["AntiForeignKey"], (item)=> {
+          return item === antiForeignTable.name;
+        }) > -1)
+        antiForeignModel.push({
+          "Table": antiForeignTable.Table,
+          "ThisTableKey": antiForeignTable.ThisTableKey,
+          "MainTableKey": antiForeignTable.MainTableKey
         })
     });
 
@@ -54,11 +64,14 @@ function ModelProcessor(modelName) {
       "TableName": structure.TableName,
       "UniqueKey": structure.UniqueKey,
       "ForeignKey": foreignModel,
+      "AntiForeignKey": antiForeignModel,
       "MappingKey": mappingModel
     }
   }
 }
 
-module.exports = (modelName)=> {
-  return new ModelProcessor(modelName);
-};
+module.exports = (modelList)=>{
+  return (modelName)=> {
+    return new ModelProcessor(modelName, modelList);
+  };
+}

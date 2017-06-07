@@ -1,7 +1,7 @@
 'use strict';
 const Logger = require('logger-romens');
 const logger = new Logger();
-const knex = require('../../modules/db');
+const knex = require('../../../../modules/db');
 const _ = require('lodash');
 
 module.exports = (dbName, tableName, extMethods)=> {
@@ -27,7 +27,7 @@ module.exports = (dbName, tableName, extMethods)=> {
         .select("*")
         .where(fieldFilter)
         .andWhere(keywords ? {[keywordsField]: keywords} : {})
-        .orderBy(orderby || 'S.updatedOn', orderDesc || 'desc')
+        .orderBy(orderby || 'updatedOn', orderDesc || 'desc')
         .limit(pagesize)
         .offset((page - 1) * pagesize)
         .then((result)=> {
@@ -112,7 +112,7 @@ module.exports = (dbName, tableName, extMethods)=> {
           .insert(data)
           .then(function (result) {
             logger.debug(`[basicModel] ${dbName} ${tableName} addData result:` + JSON.stringify(result));
-            Promise.resolve({
+            return Promise.resolve({
               type: 'add',
               tableName: tableName,
               result: result
