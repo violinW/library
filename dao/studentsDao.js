@@ -4,7 +4,7 @@ var Logger = require('logger-romens');
 var logger = new Logger();
 var Promise = require('bluebird');
 var knex = require('../conf/knexConfig');
-const businessModel = require("../jsTemplateGenerator/new/businessModel/index.js")(knex);
+const businessModel = require("icrm-business-model")(knex);
 const basicModel= businessModel.CommonDataSource;
 var commonMethod = require('../util/commonMethod');
 // 向前台返回JSON方法的简单封装

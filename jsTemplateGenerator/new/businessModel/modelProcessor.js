@@ -1,5 +1,6 @@
 'use strict';
-const logger = require('../../../modules/filterLogger');
+const Logger = require('logger-romens');
+const logger = new Logger();
 const _ = require('lodash');
 /**
  * 开起和关闭log

@@ -1,8 +1,8 @@
 'use strict';
 const modelList = require("../case/modelList.js");
 const knex = require('../modules/db');
-const businessModel = require("../jsTemplateGenerator/new/businessModel/index")(knex, modelList);
-const CommonUseCase= businessModel.CommonUseCase;
+const businessModel = require("icrm-business-model")(knex, modelList);
+const CommonUseCase = businessModel.CommonUseCase;
 const _ = require('lodash');
 const Logger = require('logger-romens');
 const logger = new Logger();
