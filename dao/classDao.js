@@ -1,13 +1,8 @@
 'use strict';
-const modelList = require("../case/modelList.js");
-const knex = require('../modules/db');
-const businessModel = require("icrm-business-model")(knex, modelList);
-const CommonUseCase = businessModel.CommonUseCase;
-const _ = require('lodash');
-const Logger = require('logger-romens');
-const logger = new Logger();
+module.exports = (dbName, Anne)=> {
+  const {businessModel, logger} = Anne.CommonReferences;
+  const {CommonUseCase} = businessModel;
 
-module.exports = (dbName)=> {
   const StudentMethods = CommonUseCase(dbName, "Student", "type_one");
   const CourseMethods = CommonUseCase(dbName, "Course", "type_two");
   const ClassMethods = CommonUseCase(dbName, "Class", "type_two");
@@ -16,11 +11,11 @@ module.exports = (dbName)=> {
     addCourse(req, res, next) {
       return CourseMethods.addSimpleList(req.body)
         .then((data)=> {
-          console.log(data);
+          logger.trace(data);
           res.send('success');
         })
         .catch((error)=> {
-          console.log(error);
+          logger.trace(error);
           res.send('fail');
         });
     },
