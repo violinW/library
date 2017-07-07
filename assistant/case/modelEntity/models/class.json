@@ -9,7 +9,8 @@
       "MiddleTable": "student_class_mapping",
       "MappingKey": "student_id",
       "MappingTableKey": "id",
-      "MappingTable": "student"
+      "MappingTable": "student",
+      "dataStructure": "testStudent"
     },
     {
       "name": "Classroom",
@@ -50,6 +51,7 @@
   ],
   "mode": {
     "type_one": {
+      "dataStructure": "testClass",
       "MappingKey": [
         "Student"
       ]

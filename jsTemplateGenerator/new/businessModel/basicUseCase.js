@@ -38,11 +38,11 @@ module.exports = (knex)=> {
        * @returns {*}
        */
       getList(filter, keywords, keywordsField, pagesize, page, orderby, orderDesc){
-        logger.trace("[USECASE]enter getList");
+        logger.trace("[BASIC USE CASE]enter getList");
 
         return models.main.getSimpleList(filter, keywords, keywordsField, pagesize, page, orderby, orderDesc, mainColumns)
           .then((result)=> {
-            logger.debug(`[BasicUseCase] ${businessModel.TableName} getList result:` + JSON.stringify(result));
+            logger.debug(`[END BASIC USE CASE] ${businessModel.TableName} getList result:` + JSON.stringify(result));
             return result
           })
       },
@@ -58,17 +58,16 @@ module.exports = (knex)=> {
        * @returns {Request}
        */
       getJoinList(filter, keywords, keywordsField, page, pagesize, orderby, orderDesc){
-        logger.trace("[USECASE]enter getJoinList");
+        logger.trace("[BASIC USE CASE]enter getJoinList");
 
         return models.main.getSimpleList(filter, keywords, keywordsField, page, pagesize, orderby, orderDesc, mainColumns)
           .then((mainData)=> {
-              console.log(mainData)
             //查询所有外键关系数据
             if (businessModel.ForeignKey && businessModel.ForeignKey.length) {
               return Promise.map(mainData, (mainItem)=> {
                   return Promise.map(businessModel.ForeignKey, (table)=> {
-                    // let columns = (table.dataStructure == "DEFAULT"?
-                    //     "*" : dataStructure.getModel(table.dataStructure).getColumnsList());
+                   let columns = (table.dataStructure == "DEFAULT"?
+                       "*" : dataStructure.getModel(table.dataStructure).getColumnsList());
                     return models.foreign[`${table.Table}Model`].getSimpleDetail([table.ForeignTableKey], mainItem[table.ThisTableKey], columns)
                       .then((list)=> {
                         mainItem[`${table.Table}List`] = list;
@@ -87,7 +86,9 @@ module.exports = (knex)=> {
             if (businessModel.AntiForeignKey && businessModel.AntiForeignKey.length) {
               return Promise.map(mainData, (mainItem)=> {
                   return Promise.map(businessModel.AntiForeignKey, (table)=> {
-                    return models.antiForeign[`${table.Table}Model`].getSimpleDetail([table.MainTableKey], mainItem[table.ThisTableKey])
+                    let columns = (table.dataStructure == "DEFAULT"?
+                      "*" : dataStructure.getModel(table.dataStructure).getColumnsList());
+                    return models.antiForeign[`${table.Table}Model`].getSimpleDetail([table.MainTableKey], mainItem[table.ThisTableKey], columns)
                       .then((list)=> {
                         mainItem[`${table.Table}Info`] = list[0];
                       })
@@ -105,8 +106,10 @@ module.exports = (knex)=> {
             if (businessModel.MappingKey && businessModel.MappingKey.length) {
               return Promise.map(mainData, (mainItem)=> {
                   return Promise.map(businessModel.MappingKey, (table)=> {
+                    let columns = (table.dataStructure == "DEFAULT"?
+                      "*" : dataStructure.getModel(table.dataStructure).getColumnsList());
                     return models.mapping[`${table.MiddleTable}Model`].getDetailWithMappingTable(table.MiddleKey,
-                      mainItem[table.ThisTableKey], table.MappingTable, table.MappingKey, table.MappingTableKey)
+                      mainItem[table.ThisTableKey], table.MappingTable, table.MappingKey, table.MappingTableKey, columns)
                       .then((list)=> {
                         mainItem[`${table.MiddleTable}List`] = list;
                       })
@@ -120,7 +123,7 @@ module.exports = (knex)=> {
             }
           })
           .then((mainData)=> {
-            logger.debug(`[BasicUseCase] ${businessModel.TableName} getJoinList result:` + JSON.stringify(mainData));
+            logger.debug(`[END BASIC USE CASE] ${businessModel.TableName} getJoinList result:` + JSON.stringify(mainData));
             return mainData
           })
       },
@@ -130,7 +133,7 @@ module.exports = (knex)=> {
        * @returns {Request}
        */
       getJoinDetail(Id){
-        logger.trace("[USECASE]enter getJoinDetail");
+        logger.trace("[BASIC USE CASE]enter getJoinDetail");
 
         return models.main.getSimpleDetail(businessModel.UniqueKey, Id, mainColumns)
           .then((mainData)=> {
@@ -187,7 +190,7 @@ module.exports = (knex)=> {
             }
           })
           .then((detail)=> {
-            logger.debug(`[BasicUseCase] ${businessModel.TableName} getJoinList result:` + JSON.stringify(detail));
+            logger.debug(`[END BASIC USE CASE] ${businessModel.TableName} getJoinList result:` + JSON.stringify(detail));
             return detail
           })
 
@@ -199,11 +202,11 @@ module.exports = (knex)=> {
        * @returns {*|Promise.<T>|Request}
        */
       getSimpleDetail(fieldName, Id){
-        logger.trace("[USECASE]enter getSimpleDetail");
+        logger.trace("[BASIC USE CASE]enter getSimpleDetail");
 
         return models.main.getSimpleDetail(fieldName, Id, mainColumns)
           .then((result)=> {
-            logger.debug(`[BasicUseCase] ${businessModel.TableName} getSimpleDetail result:` + JSON.stringify(result));
+            logger.debug(`[END BASIC USE CASE] ${businessModel.TableName} getSimpleDetail result:` + JSON.stringify(result));
             return result
           })
       },
@@ -214,11 +217,11 @@ module.exports = (knex)=> {
        * @returns {*|Promise.<T>|Request}
        */
       getFieldById(Id, FieldName){
-        logger.trace("[USECASE]enter getFieldById");
+        logger.trace("[BASIC USE CASE]enter getFieldById");
 
         return models.main.getFieldListByCondition(businessModel.UniqueKey, Id, FieldName)
           .then((result)=> {
-            logger.debug(`[BasicUseCase] ${businessModel.TableName} getCampaignFieldById result:` + JSON.stringify(result));
+            logger.debug(`[END BASIC USE CASE] ${businessModel.TableName} getCampaignFieldById result:` + JSON.stringify(result));
             return result
           })
       },
@@ -228,7 +231,7 @@ module.exports = (knex)=> {
        * @returns {*}
        */
       addSimpleList(data){
-        logger.trace("[USECASE]enter addSimpleList");
+        logger.trace("[BASIC USE CASE]enter addSimpleList");
 
         return models.main.addData(data);
       },
@@ -243,7 +246,7 @@ module.exports = (knex)=> {
        * @returns {*}
        */
       addJoinData(data){
-        logger.trace("[USECASE]enter addJoinData");
+        logger.trace("[BASIC USE CASE]enter addJoinData");
 
         return knex.transaction((trx)=> {
           models.main.addData(data && data.mainData)
@@ -282,7 +285,7 @@ module.exports = (knex)=> {
        * @returns {*}
        */
       putSimpleData(Id, data){
-        logger.trace("[USECASE]enter putSimpleData");
+        logger.trace("[BASIC USE CASE]enter putSimpleData");
 
         return models.main.updateData(data, businessModel.UniqueKey, Id);
       },
@@ -298,7 +301,7 @@ module.exports = (knex)=> {
        * @returns {*}
        */
       putJoinData(Id, data){
-        logger.trace("[USECASE]enter putJoinData");
+        logger.trace("[BASIC USE CASE]enter putJoinData");
 
         return knex.transaction((trx)=> {
           Promise.all([
@@ -327,7 +330,7 @@ module.exports = (knex)=> {
        * @returns {*}
        */
       putSimpleList(data){
-        logger.trace("[USECASE]enter putSimpleList");
+        logger.trace("[BASIC USE CASE]enter putSimpleList");
 
         return knex.transaction((trx)=> {
           return Promise.map(data, function (item) {
@@ -341,7 +344,7 @@ module.exports = (knex)=> {
        * @returns {*}
        */
       deleteById(Id){
-        logger.trace("[USECASE]enter deleteById");
+        logger.trace("[BASIC USE CASE]enter deleteById");
 
         return knex.transaction((trx)=> {
           Promise.all([

@@ -18,9 +18,10 @@ module.exports = (knex)=> {
        * @returns {*} knex promise
        */
       getSimpleList(fieldFilter, keywords, keywordsField, pagesize, page, orderby, orderDesc, columns){
-        logger.trace("BASIC EVENT: get simple list data." +
+        logger.trace("[BASIC EVENT] get simple list data." +
           "\ntip: with this method, you can get a list that meets the filter criteria." +
-          "\n     but you can not associate foreign key relationships.");
+          "\n     but you can not associate foreign key relationships." +
+          `\ntable name: ${tableName}`);
 
         return knex.withSchema(dbName)
           .table(tableName)
@@ -31,7 +32,7 @@ module.exports = (knex)=> {
           .limit(pagesize)
           .offset((page - 1) * pagesize)
           .then((result)=> {
-            logger.debug(`[basicModel] ${dbName} ${tableName} getSimpleList result:` + JSON.stringify(result));
+            logger.debug(`[END BASIC EVENT] ${dbName} ${tableName} getSimpleList result:` + JSON.stringify(result));
             return result;
           })
       },
@@ -42,16 +43,17 @@ module.exports = (knex)=> {
        * @returns {*} knex promise
        */
       getSimpleDetail(conditionField, value, columns){
-        logger.trace("BASIC EVENT: get simple detail data." +
+        logger.trace("[BASIC EVENT] get simple detail data." +
           "\ntip:with this method, you can get simple detail data by condition." +
-          "n     but you can not associate foreign key relationships.");
+          "\n     but you can not associate foreign key relationships." +
+          `\ntable name: ${tableName}`);
 
         return knex.withSchema(dbName)
           .table(tableName)
           .select(columns||"*")
           .where(conditionField, value)
           .then((result)=> {
-            logger.debug(`[basicModel] ${dbName} ${tableName} getSimpleDetail result:` + JSON.stringify(result));
+            logger.debug(`[END BASIC EVENT] ${dbName} ${tableName} getSimpleDetail result:` + JSON.stringify(result));
             return result;
           })
       },
@@ -63,15 +65,16 @@ module.exports = (knex)=> {
        * @returns {*}  knex promise
        */
       getFieldValue(conditionField, value, queryField){
-        logger.trace("BASIC EVENT: get field value data." +
-          "\ntip:with this method, you can get a field value by condition.");
+        logger.trace("[BASIC EVENT] get field value data." +
+          "\ntip:with this method, you can get a field value by condition." +
+          `\ntable name: ${tableName}`);
 
         return knex.withSchema(dbName)
           .table(tableName)
           .select(queryField)
           .where(conditionField, value)
           .then((result)=> {
-            logger.debug(`[basicModel] ${dbName} ${tableName} getFieldValue result:` + JSON.stringify(result));
+            logger.debug(`[END BASIC EVENT] ${dbName} ${tableName} getFieldValue result:` + JSON.stringify(result));
             return result;
           })
       },
@@ -83,15 +86,16 @@ module.exports = (knex)=> {
        * @returns {*}
        */
       getFieldListByCondition(conditionField, value, queryField){
-        logger.trace("BASIC EVENT: get ids by condition." +
-          "\ntip:with this method, you can get a list of field value by condition.");
+        logger.trace("[BASIC EVENT] get ids by condition." +
+          "\ntip:with this method, you can get a list of field value by condition." +
+          `\ntable name: ${tableName}`);
 
         return knex.withSchema(dbName)
           .table(tableName)
           .select(queryField)
           .where(conditionField, value)
           .then((result)=> {
-            logger.debug(`[basicModel] ${dbName} ${tableName} getFieldListByCondition result:` + JSON.stringify(result));
+            logger.debug(`[END BASIC EVENT] ${dbName} ${tableName} getFieldListByCondition result:` + JSON.stringify(result));
             return result;
           })
       },
@@ -102,8 +106,9 @@ module.exports = (knex)=> {
        * @returns {*}  knex promise
        */
       addData(data, trx){
-        logger.trace("BASIC EVENT: add data.TABLE:" + tableName +
-          "\ntip:with this method, you can add a data to the table.");
+        logger.trace("[BASIC EVENT] add data.TABLE:" + tableName +
+          "\ntip:with this method, you can add a data to the table." +
+          `\ntable name: ${tableName}`);
 
         //如果事务对象不为空，则采用事务模式
         if (trx) {
@@ -111,7 +116,7 @@ module.exports = (knex)=> {
             .table(tableName)
             .insert(data)
             .then(function (result) {
-              logger.debug(`[basicModel] ${dbName} ${tableName} addData result:` + JSON.stringify(result));
+              logger.debug(`[END BASIC EVENT] ${dbName} ${tableName} addData result:` + JSON.stringify(result));
               return Promise.resolve({
                 type: 'add',
                 tableName: tableName,
@@ -123,7 +128,7 @@ module.exports = (knex)=> {
             .table(tableName)
             .insert(data)
             .then((result)=> {
-              logger.debug(`[basicModel] ${dbName} ${tableName} addData result:` + JSON.stringify(result));
+              logger.debug(`[END BASIC EVENT] ${dbName} ${tableName} addData result:` + JSON.stringify(result));
               return result;
             })
         }
@@ -137,8 +142,9 @@ module.exports = (knex)=> {
        * @returns {*}  knex promise
        */
       updateData(data, conditionField, value, trx){
-        logger.trace("BASIC EVENT: update data." +
-          "\ntip:with this method, you can update a data by condition.");
+        logger.trace("[BASIC EVENT] update data." +
+          "\ntip:with this method, you can update a data by condition." +
+          `\ntable name: ${tableName}`);
 
         //如果事务对象不为空，则采用事务模式
         if (trx) {
@@ -147,7 +153,7 @@ module.exports = (knex)=> {
             .update(data)
             .where(conditionField, value)
             .then(function (result) {
-              logger.debug(`[basicModel] ${dbName} ${tableName} updateData result:` + JSON.stringify(result));
+              logger.debug(`[END BASIC EVENT] ${dbName} ${tableName} updateData result:` + JSON.stringify(result));
               Promise.resolve({
                 type: 'update',
                 tableName: tableName,
@@ -160,7 +166,7 @@ module.exports = (knex)=> {
             .update(data)
             .where(conditionField, value)
             .then((result)=> {
-              logger.debug(`[basicModel] ${dbName} ${tableName} updateData result:` + JSON.stringify(result));
+              logger.debug(`[END BASIC EVENT] ${dbName} ${tableName} updateData result:` + JSON.stringify(result));
               return result;
             })
         }
@@ -173,8 +179,9 @@ module.exports = (knex)=> {
        * @returns {*}  knex promise
        */
       deleteData(conditionField, value, trx){
-        logger.trace("BASIC EVENT: delete data." +
-          "\ntip:with this method, you can delete data by condition.");
+        logger.trace("[BASIC EVENT] delete data." +
+          "\ntip:with this method, you can delete data by condition." +
+          `\ntable name: ${tableName}`);
 
         //如果事务对象不为空，则采用事务模式
         if (trx) {
@@ -183,7 +190,7 @@ module.exports = (knex)=> {
             .where(conditionField, value)
             .del()
             .then(function (result) {
-              logger.debug(`[basicModel] ${dbName} ${tableName} deleteData result:` + JSON.stringify(result));
+              logger.debug(`[END BASIC EVENT] ${dbName} ${tableName} deleteData result:` + JSON.stringify(result));
               Promise.resolve({
                 type: 'del',
                 tableName: tableName,
@@ -196,7 +203,7 @@ module.exports = (knex)=> {
             .where(conditionField, value)
             .del()
             .then((result)=> {
-              logger.debug(`[basicModel] ${dbName} ${tableName} deleteData result:` + JSON.stringify(result));
+              logger.debug(`[END BASIC EVENT] ${dbName} ${tableName} deleteData result:` + JSON.stringify(result));
               return result;
             })
         }
@@ -209,8 +216,9 @@ module.exports = (knex)=> {
        * @returns {*}  knex promise
        */
       deleteBatchData(conditionField, list, trx){
-        logger.trace("BASIC EVENT: delete batch data." +
-          "\ntip:with this method, you can delete batch data by condition.");
+        logger.trace("[BASIC EVENT] delete batch data." +
+          "\ntip:with this method, you can delete batch data by condition." +
+          `\ntable name: ${tableName}`);
 
         //如果事务对象不为空，则采用事务模式
         if (trx) {
@@ -244,17 +252,22 @@ module.exports = (knex)=> {
        * @param mappingKey 映射表连接字段
        * @returns {*}
        */
-      getDetailWithMappingTable(conditionField, value, mappingTableName, key, mappingKey){
-        logger.trace("BASIC EVENT: get detail with mapping table data." +
-          "\ntip:with this method, you can get detail with mapping table info data by condition.");
+      getDetailWithMappingTable(conditionField, value, mappingTableName, key, mappingKey, columns){
+        logger.trace("[BASIC EVENT] [mapping] get detail with mapping table data." +
+          "\ntip:with this method, you can get detail with mapping table info data by condition." +
+          `\nmapping table name: ${mappingTableName}, middle table name: ${tableName}`);
 
+        const allColumns=[`${tableName}.*`];
+        _.each(columns,(col)=>{
+          allColumns.push(`${mappingTableName}.${col}`)
+        });
         return knex.withSchema(dbName)
           .table(tableName)
           .leftJoin(mappingTableName, `${tableName}.${key}`, `${mappingTableName}.${mappingKey}`)
-          .select([`${tableName}.*`, `${mappingTableName}.*`])
+          .select(allColumns)
           .where(conditionField, value)
           .then((result)=> {
-            logger.debug(`[basicModel] ${dbName} ${tableName} getDetailWithMappingTable result:` + JSON.stringify(result));
+            logger.debug(`[END BASIC EVENT] ${dbName} ${tableName} getDetailWithMappingTable result:` + JSON.stringify(result));
             return result;
           })
       }

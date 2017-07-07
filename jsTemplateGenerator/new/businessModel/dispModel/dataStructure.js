@@ -1,11 +1,13 @@
-const _ = require('lodash')
+const _ = require('lodash');
+const Logger = require('logger-romens');
+const logger = new Logger();
 /**
  * 开起和关闭log
  * @type {boolean}
  */
 var consoleSwitch = true;
-var log = function (log) {
-    consoleSwitch ? console.log("[model]" + log) : null;
+var log = function (log, type) {
+    consoleSwitch ? logger[type||'error']("[dataStructure]" + log) : null;
 };
 /**
  * 模型创建器
@@ -287,8 +289,10 @@ var modelLibrary = function () {
     this.list = {};
     this.getModel = function (name) {
         var model = this.list[name];
-        if (typeof model == "undefined")
-            throw "找不到模型" + name;
+        if (typeof model == "undefined"){
+            log("找不到数据结构模型" + name,'fatal');
+            return undefined;
+        }
         return this.list[name];
     };
     this.setModel = function (model) {

@@ -5,7 +5,7 @@ module.exports = (dbName, Anne)=> {
 
   const StudentMethods = CommonUseCase(dbName, "Student", "type_one");
   const CourseMethods = CommonUseCase(dbName, "Course", "type_two");
-  const ClassMethods = CommonUseCase(dbName, "Class", "type_two");
+  const ClassMethods = CommonUseCase(dbName, "Class", "type_one");
 
   return {
     addCourse(req, res, next) {
