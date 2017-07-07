@@ -21,4 +21,14 @@ enumMaker.fn.extendEnumList("orderStatus", {
         "CLOSED": "以关闭"
     }
 });
+
+enumMaker.fn.extendEnumList("sex", {
+    name: "sex",
+    describe: "性别",
+    value: {
+        "man": "男",
+        "woman": "女"
+    }
+});
+
 module.exports = enumMaker;

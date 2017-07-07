@@ -34,7 +34,8 @@ function ModelProcessor(modelName, modelList) {
         foreignModel.push({
           "Table": foreignTable.Table,
           "ThisTableKey": foreignTable.ThisTableKey,
-          "ForeignTableKey": foreignTable.ForeignTableKey
+          "ForeignTableKey": foreignTable.ForeignTableKey,
+          "dataStructure":foreignTable.dataStructure||"DEFAULT"
         })
     });
     _.each(structure.AntiForeignKey, (antiForeignTable)=> {
@@ -44,7 +45,8 @@ function ModelProcessor(modelName, modelList) {
         antiForeignModel.push({
           "Table": antiForeignTable.Table,
           "ThisTableKey": antiForeignTable.ThisTableKey,
-          "MainTableKey": antiForeignTable.MainTableKey
+          "MainTableKey": antiForeignTable.MainTableKey,
+          "dataStructure":antiForeignTable.dataStructure||"DEFAULT"
         })
     });
 
@@ -58,12 +60,14 @@ function ModelProcessor(modelName, modelList) {
           "MiddleKey": mappingTable.MiddleKey,
           "MappingKey": mappingTable.MappingKey,
           "MappingTable": mappingTable.MappingTable,
-          "MappingTableKey": mappingTable.MappingTableKey
+          "MappingTableKey": mappingTable.MappingTableKey,
+          "dataStructure":mappingTable.dataStructure||"DEFAULT"
         })
     });
     return {
       "TableName": structure.TableName,
       "UniqueKey": structure.UniqueKey,
+      "dataStructure": modeParams['dataStructure']||"DEFAULT",
       "ForeignKey": foreignModel,
       "AntiForeignKey": antiForeignModel,
       "MappingKey": mappingModel

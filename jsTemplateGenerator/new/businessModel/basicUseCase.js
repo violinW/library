@@ -3,10 +3,12 @@ const _ = require('lodash');
 const Logger = require('logger-romens');
 const logger = new Logger();
 const Promise = require('bluebird');
-
 module.exports = (knex)=> {
   const basicModel = require('./basicModel')(knex);
-  return (dbName, businessModel)=> {
+  return (dbName, businessModel, dataStructure)=> {
+    const mainColumns = (businessModel.dataStructure == "DEFAULT"?
+        "*" : dataStructure.getModel(businessModel.dataStructure).getColumnsList());
+
     let models = {
       main: basicModel(dbName, businessModel.TableName, {}),
       foreign: {},
@@ -29,7 +31,7 @@ module.exports = (knex)=> {
        * @param filter 字段筛选条件 例：{"sex": "male", "age": "18"}
        * @param keywords 关键字
        * @param keywordsField 关键字匹配字段
-       * @param pagesize 单页数据条数
+       * @param pagesize 单页数  据条数
        * @param page 当前查询页码
        * @param orderby 排序字段
        * @param orderDesc 排序规则 desc或者asc
@@ -38,7 +40,7 @@ module.exports = (knex)=> {
       getList(filter, keywords, keywordsField, pagesize, page, orderby, orderDesc){
         logger.trace("[USECASE]enter getList");
 
-        return models.main.getSimpleList(filter, keywords, keywordsField, pagesize, page, orderby, orderDesc)
+        return models.main.getSimpleList(filter, keywords, keywordsField, pagesize, page, orderby, orderDesc, mainColumns)
           .then((result)=> {
             logger.debug(`[BasicUseCase] ${businessModel.TableName} getList result:` + JSON.stringify(result));
             return result
@@ -58,13 +60,16 @@ module.exports = (knex)=> {
       getJoinList(filter, keywords, keywordsField, page, pagesize, orderby, orderDesc){
         logger.trace("[USECASE]enter getJoinList");
 
-        return models.main.getSimpleList(filter, keywords, keywordsField, page, pagesize, orderby, orderDesc)
+        return models.main.getSimpleList(filter, keywords, keywordsField, page, pagesize, orderby, orderDesc, mainColumns)
           .then((mainData)=> {
+              console.log(mainData)
             //查询所有外键关系数据
             if (businessModel.ForeignKey && businessModel.ForeignKey.length) {
               return Promise.map(mainData, (mainItem)=> {
                   return Promise.map(businessModel.ForeignKey, (table)=> {
-                    return models.foreign[`${table.Table}Model`].getSimpleDetail([table.ForeignTableKey], mainItem[table.ThisTableKey])
+                    // let columns = (table.dataStructure == "DEFAULT"?
+                    //     "*" : dataStructure.getModel(table.dataStructure).getColumnsList());
+                    return models.foreign[`${table.Table}Model`].getSimpleDetail([table.ForeignTableKey], mainItem[table.ThisTableKey], columns)
                       .then((list)=> {
                         mainItem[`${table.Table}List`] = list;
                       })
@@ -127,7 +132,7 @@ module.exports = (knex)=> {
       getJoinDetail(Id){
         logger.trace("[USECASE]enter getJoinDetail");
 
-        return models.main.getSimpleDetail(businessModel.UniqueKey, Id)
+        return models.main.getSimpleDetail(businessModel.UniqueKey, Id, mainColumns)
           .then((mainData)=> {
             const detail = mainData[0];
             //查询所有外键关系数据
@@ -196,7 +201,7 @@ module.exports = (knex)=> {
       getSimpleDetail(fieldName, Id){
         logger.trace("[USECASE]enter getSimpleDetail");
 
-        return models.main.getSimpleDetail(fieldName, Id)
+        return models.main.getSimpleDetail(fieldName, Id, mainColumns)
           .then((result)=> {
             logger.debug(`[BasicUseCase] ${businessModel.TableName} getSimpleDetail result:` + JSON.stringify(result));
             return result
