@@ -5,19 +5,17 @@
     {
       "name": "ClassMapping",
       "ThisTableKey": "id",
-      "MiddleTable": "student_class_mapping",
       "MiddleKey": "student_id",
+      "MiddleTable": "student_class_mapping",
       "MappingKey": "class_id",
-      "MappingTable": "class",
       "MappingTableKey": "id",
-      "TRACE":{
-        "TableName": "class",
-        "mode": "type_one"
-      }
+      "MappingTable": "class",
+      "dataStructure": "testClassroom"
     }
   ],
   "mode": {
     "type_one": {
+      "dataStructure": "testStudent",
       "MappingKey": [
         "ClassMapping"
       ]

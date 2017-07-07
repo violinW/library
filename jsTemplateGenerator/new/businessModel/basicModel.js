@@ -17,14 +17,14 @@ module.exports = (knex)=> {
        * @param orderDesc 排序规则 desc或者asc
        * @returns {*} knex promise
        */
-      getSimpleList(fieldFilter, keywords, keywordsField, pagesize, page, orderby, orderDesc){
+      getSimpleList(fieldFilter, keywords, keywordsField, pagesize, page, orderby, orderDesc, columns){
         logger.trace("BASIC EVENT: get simple list data." +
           "\ntip: with this method, you can get a list that meets the filter criteria." +
           "\n     but you can not associate foreign key relationships.");
 
         return knex.withSchema(dbName)
           .table(tableName)
-          .select("*")
+          .select(columns||"*")
           .where(fieldFilter)
           .andWhere(keywords ? {[keywordsField]: keywords} : {})
           .orderBy(orderby || 'updatedOn', orderDesc || 'desc')
@@ -41,14 +41,14 @@ module.exports = (knex)=> {
        * @param value 条件值
        * @returns {*} knex promise
        */
-      getSimpleDetail(conditionField, value){
+      getSimpleDetail(conditionField, value, columns){
         logger.trace("BASIC EVENT: get simple detail data." +
           "\ntip:with this method, you can get simple detail data by condition." +
           "n     but you can not associate foreign key relationships.");
 
         return knex.withSchema(dbName)
           .table(tableName)
-          .select("*")
+          .select(columns||"*")
           .where(conditionField, value)
           .then((result)=> {
             logger.debug(`[basicModel] ${dbName} ${tableName} getSimpleDetail result:` + JSON.stringify(result));
