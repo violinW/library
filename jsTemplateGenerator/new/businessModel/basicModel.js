@@ -200,6 +200,37 @@ module.exports = (knex)=> {
               return result;
             })
         }
+      },
+      /**
+       * 批量删除数据
+       * @param conditionField 条件字段
+       * @param list 条件值列表
+       * @param trx 事务（选传）
+       * @returns {*}  knex promise
+       */
+      deleteBatchData(conditionField, list, trx){
+        logger.trace("BASIC EVENT: delete batch data." +
+          "\ntip:with this method, you can delete batch data by condition.");
+
+        //如果事务对象不为空，则采用事务模式
+        if (trx) {
+          return trx.withSchema(dbName)
+            .table(tableName)
+            .whereIn(conditionField, list)
+            .del()
+            .then(function (result) {
+              return Promise.resolve({
+                type: 'del',
+                tableName: tableName,
+                result: result
+              })
+            })
+        } else {
+          return knex.withSchema(dbName)
+            .table(tableName)
+            .whereIn(conditionField, list)
+            .del()
+        }
       }
     };
     //非单表查询基础方法

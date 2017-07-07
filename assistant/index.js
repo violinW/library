@@ -2,10 +2,9 @@
 
 const version = "0.0.1";
 const description = "我是项目助手，帮助整合项目资源";
+const config = require('./config.json');
 //公共方法的存放路径
-const commonMethodPath = {
-  basicMethod: "../../modules/commonMethods"
-};
+const commonMethodPath = config.commonMethodPath;
 //数据结构存放路径
 const structure = require("./structure/structure");
 const references = require("./references/commonReferences");
