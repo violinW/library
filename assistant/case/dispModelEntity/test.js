@@ -1,8 +1,5 @@
-const enum_structure = require('../../structure/enum/enumDefinition.js');
-const dataType = require('../../structure/transfer/dataType')(enum_structure);
-
-module.exports=(dataStructure)=>{
-
+module.exports=(businessModel)=>{
+    const {dataStructure, dataType} = businessModel;
     /**
      * 学生模型
      */

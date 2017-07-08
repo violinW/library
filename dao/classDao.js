@@ -1,7 +1,7 @@
 'use strict';
 module.exports = (dbName, Anne)=> {
   const {businessModel, logger} = Anne.CommonReferences;
-  const {CommonUseCase} = businessModel;
+  const {CommonUseCase, dataStructure} = businessModel;
 
   const StudentMethods = CommonUseCase(dbName, "Student", "type_one");
   const CourseMethods = CommonUseCase(dbName, "Course", "type_two");
@@ -45,7 +45,29 @@ module.exports = (dbName, Anne)=> {
       return ClassMethods.getJoinList({}, null, null, 20, 1, 'id')
         .then((data)=> {
           logger.trace(data);
-          res.send(data);
+          const result = dataStructure.getModel('testClass').displayToSource([{
+            "id": 65,
+            "name": "一年级一班",
+            "grade": "grade_one",
+            "student_class_mappingList": [{
+              "id": 1,
+              "join_time": "2017-08-31T16:00:00.000Z",
+              "class_id": 65,
+              "student_id": 1,
+              "name": "王宇",
+              "age": "15",
+              "sex": "男"
+            }, {
+              "id": 2,
+              "join_time": "2017-08-31T16:00:00.000Z",
+              "class_id": 65,
+              "student_id": 2,
+              "name": "郑圆",
+              "age": "14",
+              "sex": "女"
+            }]
+          }]);
+          res.send(result);
         })
         .catch((error)=> {
           logger.trace(error);

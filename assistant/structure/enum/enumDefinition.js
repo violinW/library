@@ -8,27 +8,27 @@
  * 的组织和个人采取法律手段维护合法权益的权利。
  *****************************************************************/
 'use strict';
-let enumMaker = require('./enum');//枚举类型
+module.exports = (enumExtend)=> {
 
-enumMaker.fn.extendEnumList("orderStatus", {
-    name: "orderStatus",
-    describe: "订单状态",
-    value: {
-        "CREATED": "待审核",
-        "APPROVED": "已审核",
-        "SHIPPED": "已出库",
-        "FINISHED": "已完成",
-        "CLOSED": "以关闭"
-    }
-});
+    enumExtend("orderStatus", {
+        name: "orderStatus",
+        describe: "订单状态",
+        value: {
+            "CREATED": "待审核",
+            "APPROVED": "已审核",
+            "SHIPPED": "已出库",
+            "FINISHED": "已完成",
+            "CLOSED": "以关闭"
+        }
+    });
 
-enumMaker.fn.extendEnumList("sex", {
-    name: "sex",
-    describe: "性别",
-    value: {
-        "man": "男",
-        "woman": "女"
-    }
-});
+    enumExtend("sex", {
+        name: "sex",
+        describe: "性别",
+        value: {
+            "man": "男",
+            "woman": "女"
+        }
+    });
 
-module.exports = enumMaker;
+}

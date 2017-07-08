@@ -3,11 +3,17 @@
 const version = "0.0.1";
 const description = "我是项目助手，帮助整合项目资源";
 const config = require('./config.json');
+
+const knex = require('../modules/db');
+//const businessModel = require("icrm-business-model");
+const modelList = require("./case/modelEntity/modelList.js");
+const businessModel = require("../jsTemplateGenerator/new/businessModel/index.js")(knex, modelList);
+
 //公共方法的存放路径
 const commonMethodPath = config.commonMethodPath;
 //数据结构存放路径
-const structure = require("./structure/structure");
-const references = require("./references/commonReferences");
+const structure = require("./structure/structure")(businessModel);
+const references = require("./references/commonReferences")(businessModel);
 
 const _ = require('lodash');
 

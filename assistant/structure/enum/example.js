@@ -1,4 +1,4 @@
-const enum_type = require("./enumDefinition");
+const enum_type = require("./enumDefinition")(businessModel.dataType.enumExtend);
 
 //枚举值转换成键，orderStatus是枚举类型名称
 enum_type("orderStatus").convertToKey("待审核");

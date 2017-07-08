@@ -1,5 +1,6 @@
 var enumMaker = require('./enum');
-window.dataType = {
+
+module.exports = {
     "string": function (string) {
         return string && string.toString();
     },
@@ -25,6 +26,7 @@ window.dataType = {
     "enum": function (type) {
         return enumMaker(type);
     },
+    "enumExtend": enumMaker.fn.extendEnumList,
     "encode": function (value) {
         return encodeURI(value);
     }
