@@ -55,8 +55,8 @@ COMMENT = '登陆记录表';
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `code_template`.`default_category` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(45) NOT NULL COMMENT '品类名称',
-  `number` VARCHAR(45) DEFAULT NULL COMMENT '品类编号',
+  `name` VARCHAR(45) NOT NULL COMMENT '种类名称',
+  `number` VARCHAR(45) DEFAULT NULL COMMENT '种类编号',
   `desc` VARCHAR(45) NULL COMMENT '描述',
   PRIMARY KEY (`id`))
 ENGINE = InnoDB
@@ -68,8 +68,8 @@ COMMENT = '系统默认类别表';
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `code_template`.`category` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(45) NOT NULL COMMENT '品类名称',
-  `number` VARCHAR(45) NOT NULL COMMENT '品类编号',
+  `name` VARCHAR(45) NOT NULL COMMENT '种类名称',
+  `number` VARCHAR(45) NOT NULL COMMENT '种类编号',
   `type` ENUM('default', 'freeze') NOT NULL DEFAULT 'default' COMMENT '类型',
   `user_UUID` VARCHAR(45) NOT NULL COMMENT '用户ID',
   PRIMARY KEY (`id`),
