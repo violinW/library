@@ -87,8 +87,8 @@ module.exports = (dataType)=>{
                     displayData[key] = value.mappingType(displayData);
                 }
                 if (typeof displayData[key] == "undefined") {
-                    log("在源数据中找不到" + key + "(" + value.describe + ")对应的字段");
-                    displayData[key] = undefined;
+                    log("在源数据中找不到" + key + "(" + value.describe + ")对应的字段", 'warn');
+                    //displayData[key] = undefined;
                 }
             });
             return displayData;
@@ -249,7 +249,7 @@ module.exports = (dataType)=>{
         this.getDefaultData = function () {
             var data = {};
             _.each(this.model.structure, function (value, key) {
-                data[key] = value.defaultValue;
+                data[value.mappingName] = value.defaultValue;
             });
             return data;
         };

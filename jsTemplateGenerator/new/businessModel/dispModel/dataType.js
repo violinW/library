@@ -29,5 +29,21 @@ module.exports = {
     "enumExtend": enumMaker.fn.extendEnumList,
     "encode": function (value) {
         return encodeURI(value);
+    },
+    "createUUID": function () {
+        const newSingleNumber = function () {
+            return Math.floor(Math.random() * 16).toString(16);
+        };
+        const numberGroup = function () {
+            return newSingleNumber() + newSingleNumber() + newSingleNumber() + newSingleNumber();
+        }
+        let GUIDString = "";
+        GUIDString += (numberGroup() + numberGroup());
+        GUIDString += ('-' + numberGroup());
+        GUIDString += ('-' + numberGroup());
+        GUIDString += ('-' + numberGroup());
+        GUIDString += ('-' + numberGroup());
+        GUIDString += ('-' + numberGroup()+numberGroup());
+        return GUIDString;
     }
 };
