@@ -1,19 +1,6 @@
-/*****************************************************************
- * 青岛雨人软件有限公司©2016版权所有
- *
- * 本软件之所有（包括但不限于）源代码、设计图、效果图、动画、日志、
- * 脚本、数据库、文档均为青岛雨人软件或其附属子公司所有。任何组织
- * 或者个人，未经青岛雨人软件书面授权，不得复制、使用、修改、分发、
- * 公布本软件的任何部分。青岛雨人软件有限公司保留对任何违反本声明
- * 的组织和个人采取法律手段维护合法权益的权利。
- *****************************************************************/
-
-/**
- * 中富用户基础信息模型
- */
 modelList.setModel({
-    name: "zfBasicUserInfo",
-    describe: "中富用户基础信息模型",
+    name: "basicUserInfo",
+    describe: "用户基础信息模型",
     structure: {
         "clientArea": {
             "type": "string",
@@ -95,13 +82,9 @@ modelList.setModel({
         }
     }
 });
-
-/**
- * 中富客户基础数据模型
- */
 modelList.setModel({
-    name: "zfClientBasic",
-    describe: "中富客户基础模型",
+    name: "clientBasic",
+    describe: "客户基础模型",
     structure: {
         "id": {
             "type": "int",
@@ -122,12 +105,9 @@ modelList.setModel({
     }
 }).inheritOrganizer([modelList.getModel("zfBasicUserInfo")]);
 
-/**
- * 中富用户GSP数据模型
- */
 modelList.setModel({
-    name: "zfUserGSP",
-    describe: "中富用户GSP模型",
+    name: "userGSP",
+    describe: "用户GSP模型",
     structure: {
         "businessLicense": {
             "type": "string",
@@ -135,51 +115,7 @@ modelList.setModel({
             "mappingName": "businessLicense",
             "mappingType": "string",
             "defaultValue": dataType.string(434234234)
-        },
-        "orgCode": {
-            "type": "string",
-            "describe": "组织机构代码证号",
-            "mappingName": "orgCode",
-            "mappingType": "string",
-            "defaultValue": dataType.string(5454234324)
-        },
-        "taxRegistrationLicenseNum": {
-            "type": "string",
-            "describe": "税务登记证",
-            "mappingName": "taxRegistrationLicenseNum",
-            "mappingType": "string",
-            "defaultValue": dataType.string(784354352343)
-        },
-        "businessLicenseValidateDate": {
-            "type": "time",
-            "describe": "执照期限",
-            "mappingName": "businessLicenseValidateDate",
-            "mappingType": "string",
-            "defaultValue": dataType.string("2016-01-01")
-        },
-        "businessLicenseValidateDateLongTime": {
-            "type": "time",
-            "describe": "执照期限长期显示字段",
-            "mappingType": function (data) {
-                return data.businessLicenseValidateDate ? false : true;
-            },
-            "defaultValue": dataType.time("2016-01-01")
-        },
-        "orgCodeValidateDate": {
-            "type": "time",
-            "describe": "组织机构代码证期限",
-            "mappingName": "orgCodeValidateDate",
-            "mappingType": "string",
-            "defaultValue": dataType.time("2016-01-02")
-        },
-        "taxRegistrationLicenseNumValidateDate": {
-            "type": "time",
-            "describe": "税务登记证期限",
-            "mappingName": "taxRegistrationLicenseNumValidateDate",
-            "mappingType": "string",
-            "defaultValue": dataType.time("2016-01-03")
-        }
-    }
+        }    }
 });
 
 
@@ -187,7 +123,7 @@ modelList.setModel({
  * 中富客户拓展数据模型
  */
 modelList.setModel({
-    name: "zfClient",
-    describe: "中富客户模型",
+    name: "client",
+    describe: "客户模型",
     structure: {}
 }).inheritOrganizer([modelList.getModel("zfClientBasic"), modelList.getModel("zfUserGSP")]);
